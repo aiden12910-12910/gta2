@@ -539,27 +539,26 @@
 
 <div id="custom-gta2-topbar">
   <div class="banner-title">
-    <strong>🎮 本地极速启动通道：</strong> 首次游玩请先下载官方免费包（346 MB），再点击右侧绿色按钮直接导入，自动缓存在浏览器（下次秒开）。
+    <strong>🎮 Local High-Speed ​​Launch Channel:</strong> For your first session, please download the official free package (346 MB), then click the green button on the right to import it. The data will be automatically cached in your browser, allowing for instant loading next time.
   </div>
   <div class="banner-actions">
     <a class="gta2-quick-btn btn-ia-dl" 
        href="https://archive.org" 
        target="_blank" 
        rel="noopener noreferrer">
-      ⬇️ 1. 下载官方安装包 (Internet Archive 直链)
+      ⬇️ 1. Download the official installer (direct link from Internet Archive)
     </a>
     <button class="gta2-quick-btn btn-local-exe" onclick="triggerOriginalAction('GTA2INSTALLER.exe', '.exe')">
-      📂 2. 导入本地 GTA2INSTALLER.exe
+      📂 2. Import local GTA2INSTALLER.exe
     </button>
     <button class="gta2-quick-btn btn-local-dir" onclick="triggerOriginalAction('GTA2 folder', 'directory')">
-      📁 导入已解压的游戏文件夹
+      📁 Import an already extracted game folder
     </button>
     <button class="gta2-quick-btn btn-force-play" onclick="triggerOriginalPlay()">
-      ▶️ 已有缓存？直接启动游戏
+      ▶️ Already have a cached version? Launch the game directly
     </button>
   </div>
 </div>
-
 <script>
   // 将顶部快捷横幅置顶到 body 最前面
   document.addEventListener('DOMContentLoaded', () => {
@@ -595,7 +594,7 @@
       if (matchedInput) {
         matchedInput.click();
       } else {
-        alert('未检测到文件选择器，请先点击页面上的 "Forget game files" 清除旧状态后再试。');
+       alert('File selector not detected. Please click "Forget game files" on the page to clear the previous state, then try again.');
       }
     }, 150);
   }
