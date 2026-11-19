@@ -490,5 +490,122 @@
   <!-- strings.js is imported by shell.js (one module instance); it applies the stored
        language as soon as the page's markup is parsed. -->
   <script type="module" src="shell.js?v=11ff9757d2"></script>
+  <!-- === 自定义增强：顶部下载直链横幅 + 醒目本地加载快捷工具栏 === -->
+<style>
+  #custom-gta2-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 99999;
+    background: linear-gradient(90deg, #111827, #1f2937);
+    color: #f9fafb;
+    padding: 12px 20px;
+    border-bottom: 2px solid #f59e0b;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: system-ui, -apple-system, sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+  #custom-gta2-topbar .banner-title {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  #custom-gta2-topbar .banner-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .gta2-quick-btn {
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    transition: transform 0.1s, opacity 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .gta2-quick-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-ia-dl { background: #3b82f6; color: #fff !important; }
+  .btn-local-exe { background: #10b981; color: #fff; }
+  .btn-local-dir { background: #f59e0b; color: #111827; }
+  .btn-force-play { background: #ef4444; color: #fff; }
+</style>
+
+<div id="custom-gta2-topbar">
+  <div class="banner-title">
+    <strong>🎮 本地极速启动通道：</strong> 首次游玩请先下载官方免费包（346 MB），再点击右侧绿色按钮直接导入，自动缓存在浏览器（下次秒开）。
+  </div>
+  <div class="banner-actions">
+    <a class="gta2-quick-btn btn-ia-dl" 
+       href="https://archive.org" 
+       target="_blank" 
+       rel="noopener noreferrer">
+      ⬇️ 1. 下载官方安装包 (Internet Archive 直链)
+    </a>
+    <button class="gta2-quick-btn btn-local-exe" onclick="triggerOriginalAction('GTA2INSTALLER.exe', '.exe')">
+      📂 2. 导入本地 GTA2INSTALLER.exe
+    </button>
+    <button class="gta2-quick-btn btn-local-dir" onclick="triggerOriginalAction('GTA2 folder', 'directory')">
+      📁 导入已解压的游戏文件夹
+    </button>
+    <button class="gta2-quick-btn btn-force-play" onclick="triggerOriginalPlay()">
+      ▶️ 已有缓存？直接启动游戏
+    </button>
+  </div>
+</div>
+
+<script>
+  // 将顶部快捷横幅置顶到 body 最前面
+  document.addEventListener('DOMContentLoaded', () => {
+    const bar = document.getElementById('custom-gta2-topbar');
+    if (bar && document.body.firstChild) {
+      document.body.insertBefore(bar, document.body.firstChild);
+    }
+  });
+
+  // 安全触发原网页隐藏的文件选择逻辑（不破坏原有 JS 事件绑定）
+  function triggerOriginalAction(keyword, fallbackAttr) {
+    // 1. 先尝试点击进入游戏面板（防止面板未初始化）
+    const playNowBtn = Array.from(document.querySelectorAll('button, a'))
+      .find(el => el.textContent.trim() === 'Play now' || el.textContent.trim() === 'Play');
+    if (playNowBtn) playNowBtn.click();
+
+    setTimeout(() => {
+      // 2. 查找包含对应关键词的原始按钮或 label
+      const targetBtn = Array.from(document.querySelectorAll('button, label'))
+        .find(el => !el.closest('#custom-gta2-topbar') && el.textContent.includes(keyword));
+      
+      if (targetBtn) {
+        targetBtn.click();
+        return;
+      }
+
+      // 3. 兜底直接查找原生 file input
+      const inputs = Array.from(document.querySelectorAll('input[type="file"]'));
+      const matchedInput = fallbackAttr === 'directory'
+        ? inputs.find(i => i.webkitdirectory || i.hasAttribute('webkitdirectory'))
+        : inputs.find(i => !i.webkitdirectory);
+
+      if (matchedInput) {
+        matchedInput.click();
+      } else {
+        alert('未检测到文件选择器，请先点击页面上的 "Forget game files" 清除旧状态后再试。');
+      }
+    }, 150);
+  }
+
+  function triggerOriginalPlay() {
+    const playBtn = Array.from(document.querySelectorAll('button, a'))
+      .find(el => !el.closest('#custom-gta2-topbar') && (el.textContent.trim() === 'Play now' || el.textContent.trim() === 'Play'));
+    if (playBtn) playBtn.click();
+  }
+</script>
+
 </body>
 </html>
