@@ -8,22 +8,253 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
   <style>
-    :root{color-scheme:dark;--bg:#090b0e;--panel:#15181d;--panel2:#1b1f25;--line:#292f38;--text:#e8edf5;--muted:#9aa8bb;--blue:#489cf5;--blue-hover:#67adff;--green:#42ca7a;--red:#ff8a8a}
-    *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font:15px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}body{min-height:100vh}main{min-height:100vh;display:flex;flex-direction:column}button,input,select{font:inherit}button,a,label{ -webkit-tap-highlight-color:transparent}a{color:#61aaff}a:hover{color:#9bcaff}[hidden]{display:none!important}
-    #picker{width:min(910px,calc(100% - 32px));margin:auto;padding:2.1rem 2.4rem;background:var(--panel);border:1px solid var(--line);border-radius:22px;box-shadow:0 24px 80px #0006}
-    #picker h1{margin:0 0 .45rem;font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.15;letter-spacing:-.035em;color:#f5f7fb}#picker>p{margin:.5rem 0 1.2rem;color:var(--muted);font-size:1.05rem}#picker code{color:#d7e3f2;background:#222832;border-radius:4px;padding:.08rem .3rem}
-    .picker-intro{max-width:760px}.picker-box{padding:1.05rem 1.2rem;margin:1rem 0;border:1px solid var(--line);border-radius:14px;background:var(--panel2)}.picker-box h2{margin:0 0 .35rem;font-size:1rem;color:#f3f6fa}.picker-box p{margin:.25rem 0;color:var(--muted)}.picker-box ol{margin:.45rem 0 0;padding-left:1.5rem;color:var(--muted)}.picker-box li{padding:.12rem 0}.picker-box strong{color:#edf3fb}
-    .picker-actions{display:flex;align-items:center;gap:.65rem;flex-wrap:wrap;margin-top:1.15rem}.button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:.72rem 1.15rem;border:1px solid #3888dc;border-radius:9px;background:var(--blue);color:#071522;font-weight:700;text-decoration:none;cursor:pointer;transition:background .15s,border-color .15s,transform .15s}.button:hover{background:var(--blue-hover);color:#071522}.button:active{transform:translateY(1px)}.button.secondary{color:var(--text);background:#20252d;border-color:#3a424e}.button.secondary:hover{background:#292f39}.button.link-button{background:transparent;color:#9fcaff;border-color:transparent;text-decoration:underline;padding-inline:.35rem}.button input,#tools input{display:none}.button:focus-within,button:focus-visible,a:focus-visible{outline:2px solid #91c6ff;outline-offset:3px}
-    #saved{margin:1rem 0;padding:1rem 0;border-bottom:1px solid var(--line)}#saved button,#play-saved{padding:.6rem 1rem;border-radius:7px;border:0;background:var(--blue);color:#071522;font-weight:700;cursor:pointer}#forget-files{margin-left:.5rem;border:0;background:none;color:var(--muted);text-decoration:underline;cursor:pointer}
-    #freeware{margin-top:1.1rem;padding-top:1rem;border-top:1px solid var(--line)}#freeware>p{color:var(--muted)}#download-freeware{padding:.68rem 1rem;border:0;border-radius:8px;background:var(--blue);color:#071522;font-weight:700;cursor:pointer}#download-freeware:hover{background:var(--blue-hover)}#download-freeware:disabled{opacity:.55;cursor:progress}#installer-pick{margin-top:1rem!important;font-size:.93rem}
-    #game{flex:1;min-height:0;display:flex}#screen{flex:1;width:100%;height:100%;display:block;outline:none;image-rendering:pixelated}#status{position:fixed;left:1rem;bottom:1rem;z-index:20;margin:0;padding:.35rem .65rem;border-radius:6px;background:#090b0ecc;color:var(--muted);max-width:min(90vw,700px)}#status.error{color:var(--red)}#fps{position:fixed;bottom:.5rem;left:.5rem;z-index:8;margin:0;padding:.2rem .5rem;border-radius:4px;background:#0009;color:#9f9;font:12px ui-monospace,Menlo,monospace;pointer-events:none}
-    #state-toast{position:fixed;left:50%;bottom:18%;transform:translateX(-50%);z-index:30;padding:.5rem 1rem;border-radius:6px;background:#000c;color:#fff;font-weight:600;pointer-events:none}#state-toast.error{color:var(--red)}.continue{display:flex;gap:.8rem;align-items:center;margin-top:1rem;padding:.6rem;border:1px solid var(--line);border-radius:8px;background:#ffffff08;text-align:left;color:inherit;cursor:pointer;width:100%}.continue img{width:120px;aspect-ratio:16/9;object-fit:cover;border-radius:5px}.continue span{display:flex;flex-direction:column}.continue b{color:#8fc2ff}.continue small{color:var(--muted)}
-    #coop .row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:.8rem 0}#coop .field{display:flex;flex-direction:column;gap:.3rem;color:var(--muted);font-size:.9rem}#coop input,#coop select{padding:.45rem .6rem;border-radius:6px;border:1px solid #444;background:#111419;color:var(--text)}#coop button{padding:.5rem 1rem;border-radius:6px;border:1px solid #46515f;background:#242a33;color:var(--text);cursor:pointer}#coop button.primary{background:var(--blue);border-color:var(--blue);color:#071522;font-weight:700}#coop button:disabled{opacity:.5;cursor:default}#coop-link{width:min(100%,30rem)}#coop-players{padding-left:1.4rem}#coop-results,#coop-crews .crew{padding:.7rem;border-radius:9px;background:#12161b;border:1px solid var(--line)}#coop-crews{display:grid;gap:.5rem;margin:.5rem 0}#coop-crews .crew{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;border-left:4px solid var(--c,#888)}#coop-crews .crew button{margin-left:auto}.mode-help,.saves-note{color:var(--muted);font-size:.9rem}.on-server .p2p-only{display:none}
-    #saves-screen,#controls-screen{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:16px;background:#000b}.saves-panel,.controls-panel{width:min(980px,100%);max-height:100%;overflow:auto;padding:1.2rem 1.4rem;border-radius:12px;background:#15181d;border:1px solid var(--line)}.saves-head{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap}.saves-head h2{margin:0;color:#9bcaff}.saves-keys,.saves-note{color:var(--muted)}.saves-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.8rem}.save-card{overflow:hidden;border:1px solid var(--line);border-radius:8px;background:var(--panel2)}.save-card img,.save-blank{width:100%;aspect-ratio:16/9;object-fit:cover}.save-blank{display:grid;place-items:center;color:var(--muted)}.save-text,.save-actions{padding:.6rem}.save-actions{display:flex;gap:.4rem}.save-actions button,.controls-row button,.controls-actions button{padding:.4rem .65rem;border-radius:5px;border:1px solid #3a424e;background:#262c35;color:var(--text);cursor:pointer}.save-actions button.primary,.controls-actions button.primary{background:var(--blue);color:#071522}.controls-list{display:grid;gap:.35rem}.controls-row{display:flex;justify-content:space-between;gap:1rem;padding:.4rem .5rem;border-radius:6px;background:#1d2229}.controls-actions{display:flex;justify-content:flex-end;gap:.5rem;margin-top:1rem}
-    #topnav{position:sticky;top:.5rem;z-index:8;margin:.5rem auto 0;width:min(1120px,calc(100% - 2rem));display:flex;align-items:center;gap:1rem;padding:.6rem 1rem;border:1px solid var(--line);border-radius:12px;background:#181b20eF;backdrop-filter:blur(10px)}#topnav .logo{font:22px/1 Bungee,"Arial Black",sans-serif;color:#9bcaff;text-decoration:none}#topnav .logo small{font:600 12px system-ui;color:var(--muted);margin-left:.4rem}#topnav nav{display:flex;gap:.25rem;flex-wrap:wrap}#topnav nav a{padding:.35rem .6rem;color:#cbd4df;text-decoration:none}#topnav .grow{flex:1}.btn{padding:.65rem 1rem;border:0;border-radius:8px;background:var(--blue);color:#071522;font-weight:700;cursor:pointer}.btn.alt{background:var(--green)}.btn.ghost{background:#262c35;color:var(--text)}#landing{width:min(1120px,calc(100% - 2rem));margin:1.25rem auto 3rem;display:flex;flex-direction:column;gap:1.25rem}#landing section{scroll-margin-top:5rem}.card{padding:1.25rem;border:1px solid var(--line);border-radius:15px;background:#171a1f}.hero{display:grid;grid-template-columns:1.6fr 1fr;gap:1rem}.hero-shot{padding:0;overflow:hidden;min-height:230px;position:relative}.hero-shot img{width:100%;height:100%;object-fit:cover}.hero-shot .tag{position:absolute;left:1rem;bottom:1rem;padding:.4rem .7rem;border-radius:8px;background:#000b;color:#9bcaff}.hero.no-shot{grid-template-columns:1fr}.hero.no-shot .hero-shot{display:none}.hero-side{display:flex;flex-direction:column;justify-content:center;gap:.8rem}.hero-side h1{margin:0;font-size:2rem}.hero-side h1 span{color:#8fc2ff}.hero-side p,.section-sub,.mode p{color:var(--muted)}#files-bar{width:100%;accent-color:var(--blue)}#files-state{color:#9fdcae}.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}.mode h2,.section-title{margin:0 0 .4rem}.mode .pill{display:inline-block;margin:.1rem .25rem .6rem 0;padding:.1rem .5rem;border-radius:99px;background:#252b33;color:#cbd4df;font-size:.8rem}.section-title{font-size:1.5rem}.landing-foot{text-align:center;color:#8994a2;font-size:.85rem}.faq details{margin:.6rem 0;padding:.8rem 1rem;border:1px solid var(--line);border-radius:10px;background:#12161b}.faq summary{cursor:pointer;font-weight:700}.faq p{color:var(--muted)}#options-root{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem 1.5rem}.opt{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.6rem 0;border-bottom:1px solid #292f38}.opt-label{display:flex;flex-direction:column}.opt-label small{color:var(--muted)}.seg{display:inline-flex;gap:3px;padding:3px;border:1px solid var(--line);border-radius:9px;background:#101317}.seg button{padding:.35rem .6rem;border:0;border-radius:6px;background:none;color:#b8c2cf}.seg button[aria-checked=true],.seg button[aria-selected=true]{background:var(--blue);color:#071522}.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}.kb{display:flex;flex-direction:column;gap:5px}.kb-row{display:flex;gap:5px}.kb-key{flex:1;padding:.5rem;text-align:center;border:1px solid var(--line);border-radius:6px;background:#1d2229}.board{width:100%;border-collapse:collapse}.board th,.board td{text-align:left;padding:.5rem;border-bottom:1px solid var(--line)}.board th,.members{color:var(--muted)}
-    #tools{position:fixed;bottom:.5rem;left:50%;transform:translateX(-50%);z-index:6;display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem;max-width:calc(100% - 1rem);opacity:.45}#tools:hover,#tools:focus-within{opacity:1}#tools button,#tools label{white-space:nowrap;padding:.35rem .6rem;border:1px solid #4b5562;border-radius:5px;background:#1c2026;color:var(--text);font-size:12px;cursor:pointer}#tools button[aria-pressed=true]{border-color:var(--blue)}#map-screen{position:fixed;inset:0;width:100%;height:100%;z-index:5;cursor:crosshair;touch-action:none}#map-overlay{position:fixed;inset:0;z-index:2;pointer-events:none}#map-radar{position:fixed;left:0;top:0;z-index:2;pointer-events:none}#coop-banner{position:fixed;left:50%;top:1rem;transform:translateX(-50%);z-index:7;max-width:90vw;padding:.5rem 1rem;border-radius:6px;background:#08090ceF;color:#ffd23f;text-align:center}#coop-banner.error{color:var(--red)}#chat-log{position:fixed;left:1rem;bottom:4.6rem;z-index:4;width:min(28rem,60vw);pointer-events:none}#chat-log p{margin:0;padding:.15rem .5rem;background:#0009;color:#eee}#chat-input{position:fixed;left:1rem;bottom:2.6rem;z-index:7;width:min(28rem,60vw);padding:.45rem;border:1px solid var(--blue);border-radius:6px;background:#101317;color:white}
-    body.landing-on{overflow-y:auto;height:auto;min-height:100%}body.landing-on main{height:auto}.landing-on #status{position:static;text-align:center;margin:.5rem auto}.on-site #picker:has(#coop:not([hidden])){margin:1rem auto;width:min(760px,calc(100% - 2rem));max-width:none}.on-site #picker:has(#coop:not([hidden])) h1{font-size:1.7rem}
-    @media(max-width:760px){#picker{padding:1.3rem 1.1rem;border-radius:16px}.hero,.modes{grid-template-columns:1fr}.hero-shot{min-height:190px}.legend,#options-root{grid-template-columns:1fr}#topnav nav{display:none}.picker-actions{align-items:stretch;flex-direction:column}.picker-actions .button{width:100%}.controls-row{flex-wrap:wrap}.kb-key{padding:.3rem;font-size:.8rem}}
+    :root { color-scheme: dark; --bg: #0b0b0d; --fg: #e8e6e3; --muted: #9a978f; --accent: #e63946; }
+    html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg);
+      font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    main { height: 100%; display: flex; flex-direction: column; }
+    #picker { margin: auto; max-width: 34rem; padding: 2rem 1rem; }
+    #picker h1 { margin: 0 0 .5rem; font-size: 1.6rem; }
+    #picker p { color: var(--muted); }
+    label.button { display: inline-block; margin-top: .5rem; padding: .6rem 1.1rem; border-radius: 6px;
+      background: var(--accent); color: #fff; font-weight: 600; cursor: pointer; }
+    label.button input { display: none; }
+    #game { flex: 1; min-height: 0; display: flex; }
+    #screen { flex: 1; width: 100%; height: 100%; display: block; outline: none; image-rendering: pixelated; }
+    #status { position: fixed; left: 1rem; bottom: 2.2rem; margin: 0; color: var(--muted); }
+    #status.error { color: #ff8a8a; }
+    #state-toast { position: fixed; left: 50%; bottom: 18%; transform: translateX(-50%); z-index: 30; pointer-events: none;
+      padding: .5rem 1rem; border-radius: 6px; background: rgba(0, 0, 0, .78); color: #fff; font-weight: 600; }
+    #state-toast.error { color: #ff8a8a; }
+    .continue { display: flex; gap: .8rem; align-items: center; margin-top: 1rem; padding: .6rem; border-radius: 8px;
+      background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .1); text-align: left; cursor: pointer;
+      color: inherit; font: inherit; width: 100%; }
+    .continue:hover { border-color: #f5c518; }
+    .continue img { width: 120px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 5px; flex: none; }
+    .continue span { display: flex; flex-direction: column; gap: .1rem; min-width: 0; }
+    .continue b { color: #f5c518; }
+    .continue small { color: #9aa0aa; }
+    #saves-screen { position: fixed; inset: 0; z-index: 40; display: flex; align-items: center; justify-content: center;
+      padding: 16px; background: rgba(0, 0, 0, .72); }
+    #saves-screen[hidden] { display: none; }
+    #controls-screen { position: fixed; inset: 0; z-index: 40; display: flex; align-items: center; justify-content: center;
+      padding: 16px; background: rgba(0, 0, 0, .72); }
+    #controls-screen[hidden] { display: none; }
+    .controls-panel { width: min(560px, 100%); }
+    .controls-list { display: grid; gap: .35rem; }
+    .controls-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .3rem .5rem;
+      border-radius: 6px; background: #1d2027; }
+    .controls-row button, .controls-actions button { min-width: 8.5rem; padding: .4rem .7rem; border-radius: 5px;
+      border: 1px solid #3a3f4b; background: #262a33; color: #e8e8e8; cursor: pointer; font: inherit; font-size: .9rem; }
+    .controls-row button.waiting { border-color: #f5c518; color: #f5c518; }
+    .controls-actions { display: flex; justify-content: flex-end; gap: .5rem; }
+    .controls-actions button.primary { background: #f5c518; border-color: #f5c518; color: #111; font-weight: 600; }
+    .saves-panel { width: min(980px, 100%); max-height: 100%; overflow: auto; padding: 1.2rem 1.4rem; border-radius: 10px;
+      background: #15171c; border: 1px solid #2a2e37; color: #e8e8e8; }
+    .saves-head { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: .8rem; }
+    .saves-head h2 { margin: 0; font-size: 1.4rem; color: #f5c518; }
+    .saves-keys { color: #8b919c; font-size: .85rem; flex: 1; }
+    .saves-close { background: none; border: 0; color: #c9c9c9; font-size: 1.2rem; cursor: pointer; }
+    .saves-note { color: #8b919c; font-size: .85rem; margin: .6rem 0; }
+    .saves-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: .8rem; }
+    .save-card { display: flex; flex-direction: column; border-radius: 8px; overflow: hidden; background: #1d2027;
+      border: 1px solid #2a2e37; }
+    .save-card img, .save-blank { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #0c0d10; }
+    .save-blank { display: flex; align-items: center; justify-content: center; color: #5d636e; font-size: .9rem; }
+    .save-text { display: flex; flex-direction: column; gap: .15rem; padding: .55rem .7rem 0; min-height: 3.6rem; }
+    .save-slot { color: #f5c518; font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; }
+    .save-text strong { font-size: .95rem; }
+    .save-text small { color: #9aa0aa; }
+    .save-actions { display: flex; gap: .4rem; padding: .6rem .7rem .7rem; margin-top: auto; }
+    .save-actions button { flex: 1; padding: .4rem .5rem; white-space: nowrap; border-radius: 5px; border: 1px solid #3a3f4b; background: #262a33;
+      color: #e8e8e8; cursor: pointer; font: inherit; font-size: .85rem; }
+    .save-actions button.primary { background: #f5c518; border-color: #f5c518; color: #111; font-weight: 600; }
+    .save-actions button.quiet { flex: 0 0 auto; color: #9aa0aa; }
+    .save-actions button.armed { background: #b3261e; border-color: #b3261e; color: #fff; }
+    .save-actions:has(.armed) button:not(.armed) { display: none; } /* the question gets the whole row */
+    .save-actions button:disabled { opacity: .45; cursor: default; }
+    #coop-banner { position: fixed; left: 50%; top: 4.5rem; transform: translateX(-50%); z-index: 4; margin: 0;
+      padding: .5rem 1rem; border-radius: 6px; background: rgba(8,9,12,.85); color: #ffd23f; font-weight: 600;
+      max-width: min(90vw, 40rem); text-align: center; pointer-events: none; }
+    #coop-banner.error { color: #ff8a8a; }
+    #chat-log { position: fixed; left: 1rem; bottom: 4.6rem; z-index: 4; width: min(28rem, 60vw); pointer-events: none;
+      display: flex; flex-direction: column; gap: .15rem; }
+    #chat-log p { margin: 0; padding: .15rem .5rem; border-radius: 4px; background: rgba(0,0,0,.6); color: #eee;
+      font: 14px/1.35 system-ui, sans-serif; text-shadow: 0 1px 0 #000; transition: opacity 1s; overflow-wrap: anywhere; }
+    #chat-log p.note { color: #aaa; font-style: italic; }
+    #chat-log p.old { opacity: 0; }
+    #chat-input { position: fixed; left: 1rem; bottom: 2.6rem; z-index: 7; width: min(28rem, 60vw); box-sizing: border-box;
+      font: 14px system-ui, sans-serif; padding: .45rem .6rem; border-radius: 6px; border: 1px solid #f5c518;
+      background: rgba(10,10,12,.92); color: #fff; outline: none; }
+    [hidden] { display: none !important; }
+    /* until shell.js picks the screen (landing page, lobby or folder picker), show none of them */
+    body.booting #picker { visibility: hidden; }
+
+    /* ---- landing page (D21 front page) ---- */
+    body.landing-on { overflow-y: auto; height: auto; min-height: 100%; }
+    body.landing-on main { height: auto; }
+    .landing-on #status { position: static; text-align: center; margin: .5rem 0; }
+    #topnav { position: sticky; top: .75rem; z-index: 8; margin: .75rem auto 0; width: min(1120px, calc(100% - 2rem));
+      display: flex; align-items: center; gap: 1rem; padding: .55rem .7rem .55rem 1.1rem; box-sizing: border-box;
+      border-radius: 16px; background: rgba(24,24,29,.82); backdrop-filter: blur(10px); border: 1px solid #2c2c33; }
+    #topnav .logo { font: 22px/1 Bungee, "Arial Black", Impact, sans-serif; color: #f5c518; text-decoration: none;
+      letter-spacing: .02em; text-shadow: 2px 2px 0 #000; }
+    #topnav .logo small { font: 600 12px system-ui, sans-serif; color: var(--muted); margin-left: .4rem; text-shadow: none; }
+    #topnav nav { display: flex; gap: .25rem; margin-left: .5rem; flex-wrap: wrap; }
+    #topnav nav a { color: #cfcdc9; text-decoration: none; padding: .35rem .7rem; border-radius: 9px; font-size: 14px; }
+    #topnav nav a:hover { background: #2a2a31; color: #fff; }
+    #topnav .grow { flex: 1; }
+    .btn { font: 15px/1 Bungee, "Arial Black", sans-serif; letter-spacing: .03em; padding: .7rem 1.1rem; border-radius: 10px;
+      border: 0; cursor: pointer; text-transform: uppercase; color: #121212; background: #f5c518; box-shadow: 0 3px 0 #a5830b;
+      white-space: nowrap; }
+    .btn:hover { filter: brightness(1.08); }
+    .btn:disabled { opacity: .6; cursor: progress; filter: none; transform: none; }
+    .btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #a5830b; }
+    .btn.alt { background: #2fbf71; box-shadow: 0 3px 0 #1d7a48; color: #08130c; }
+    .btn.ghost { background: #2a2a31; box-shadow: 0 3px 0 #17171b; color: #eee; }
+    #landing { width: min(1120px, calc(100% - 2rem)); margin: 1.25rem auto 3rem; display: flex; flex-direction: column; gap: 1.25rem; }
+    #landing section { scroll-margin-top: 5.5rem; }
+    .card { background: #18181d; border: 1px solid #2a2a31; border-radius: 16px; padding: 1.25rem; }
+    .hero { display: grid; grid-template-columns: 1.7fr 1fr; gap: 1.25rem; }
+    .hero-shot { position: relative; padding: 0; overflow: hidden; min-height: 260px; }
+    .hero-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-shot .tag { position: absolute; left: 1rem; bottom: 1rem; padding: .5rem .8rem; border-radius: 10px;
+      background: rgba(0,0,0,.72); font: 18px Bungee, "Arial Black", sans-serif; color: #f5c518; text-shadow: 2px 2px 0 #000; }
+    .hero.no-shot { grid-template-columns: 1fr; }
+    .hero.no-shot .hero-shot { display: none; }
+    .hero-side { display: flex; flex-direction: column; justify-content: center; gap: .9rem; }
+    .hero-side h1 { margin: 0; font: 34px/1.05 Bungee, "Arial Black", Impact, sans-serif; color: #fff; text-shadow: 3px 3px 0 #000; }
+    .hero-side h1 span { color: #f5c518; }
+    .hero-side p { margin: 0; color: #b9b6b0; }
+    #files-state { font-size: 14px; color: #9fdcae; }
+    #files-bar { width: 100%; height: .5rem; accent-color: #f5c518; }
+    .modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .mode h2, .section-title { margin: 0 0 .35rem; font: 20px Bungee, "Arial Black", sans-serif; color: #fff; letter-spacing: .02em; }
+    .mode p { margin: 0 0 1rem; color: #aaa7a1; font-size: 14px; }
+    .mode .pill { display: inline-block; font-size: 12px; padding: .15rem .55rem; border-radius: 99px; background: #23232a;
+      color: #cfcdc9; margin-right: .3rem; margin-bottom: .8rem; }
+    .section-title { font-size: 26px; margin-bottom: .2rem; text-shadow: 2px 2px 0 #000; }
+    .section-sub { margin: 0 0 1rem; color: #9a978f; }
+    .kb { display: flex; flex-direction: column; gap: 6px; padding: 14px; border-radius: 14px; background: #121216; border: 1px solid #26262c; }
+    .kb-row { display: flex; gap: 6px; }
+    .kb-key { flex: 1; min-width: 0; height: 42px; display: grid; place-items: center; border-radius: 8px; font-size: 13px;
+      color: #77757f; background: #1d1d23; border: 1px solid #2a2a31; box-shadow: inset 0 -2px 0 #15151a; overflow: hidden;
+      white-space: nowrap; }
+    .kb-key.lit { color: var(--c); background: color-mix(in srgb, var(--c) 14%, #1d1d23);
+      border-color: color-mix(in srgb, var(--c) 55%, transparent); font-weight: 700; }
+    .legend { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem 1.2rem; }
+    .legend li { display: flex; align-items: center; gap: .55rem; font-size: 14px; }
+    .legend .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c); flex: none; }
+    .legend .caps { display: inline-flex; align-items: center; gap: .25rem; }
+    .legend kbd { font: 600 12px system-ui, sans-serif; padding: .15rem .45rem; border-radius: 6px; background: #2a2a31;
+      border: 1px solid #36363e; color: #eee; min-width: 1.1rem; text-align: center; }
+    .legend .sep { color: #666; font-size: 12px; }
+    .legend .does { color: #cfcdc9; }
+    #options-root { display: grid; grid-template-columns: repeat(2, 1fr); gap: .9rem 1.5rem; }
+    .opt { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .6rem 0;
+      border-bottom: 1px solid #24242a; }
+    .opt-label { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+    .opt-label small { color: #8c8a85; font-size: 12px; }
+    .seg { display: inline-flex; flex: none; gap: 3px; padding: 3px; border-radius: 10px; background: #111115;
+      border: 1px solid #2a2a31; }
+    .seg button { white-space: nowrap; font: 600 12px system-ui, sans-serif; padding: .35rem .6rem; border-radius: 7px; border: 0; cursor: pointer;
+      background: none; color: #aaa7a1; }
+    .seg button[aria-checked="true"], .seg button[aria-selected="true"] { background: #f5c518; color: #121212; }
+    .controls-tabs { margin-bottom: 1rem; }
+    .controls-tabs button { font-size: 14px; padding: .45rem 1rem; }
+    #pad-status.found { color: #9fdcae; }
+    .pad-wrap { padding: 14px; border-radius: 14px; background: #121216; border: 1px solid #26262c; }
+    .pad-diagram { display: block; width: min(520px, 100%); margin: 0 auto; }
+    .pad-body { fill: #1d1d23; stroke: #2a2a31; stroke-width: 2; }
+    .pad-part { fill: #25252c; stroke: #33333b; stroke-width: 1.5; }
+    .pad-part.lit { fill: color-mix(in srgb, var(--c) 18%, #1d1d23); stroke: color-mix(in srgb, var(--c) 70%, transparent); }
+    .pad-label { font: 700 13px system-ui, sans-serif; fill: #77757f; text-anchor: middle; dominant-baseline: central; }
+    .pad-label.lit { fill: var(--c); }
+    .pad-note { margin: 1rem 0 0; font-size: 14px; }
+    .board { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .board th { text-align: left; color: #8c8a85; font-weight: 600; font-size: 12px; padding: .4rem .5rem; border-bottom: 1px solid #2a2a31; }
+    .board td { padding: .55rem .5rem; border-bottom: 1px solid #202026; vertical-align: top; }
+    .board .rank { font: 18px Bungee, "Arial Black", sans-serif; color: #f5c518; width: 2.5rem; }
+    .board .crew-name { font-weight: 700; color: #fff; }
+    .board .members { color: #8c8a85; font-size: 12px; }
+    .board .rep { font: 16px Bungee, "Arial Black", sans-serif; color: #2fbf71; }
+    .faq details { border: 1px solid #2a2a31; border-radius: 12px; padding: .8rem 1rem; margin-bottom: .6rem; background: #141418; }
+    .faq summary { cursor: pointer; font-weight: 600; }
+    .faq p { color: #b5b2ac; margin: .6rem 0 0; }
+    .faq a, .landing-foot a { color: #f5c518; }
+    .landing-foot { text-align: center; color: #77757f; font-size: 12px; }
+    /* the co-op lobby on the game server, in the landing page's style */
+    .on-site #picker:has(#coop:not([hidden])) { margin: 1.5rem auto; width: min(680px, calc(100% - 2rem)); max-width: none;
+      box-sizing: border-box; padding: 1.5rem; background: #18181d; border: 1px solid #2a2a31; border-radius: 16px; }
+    .on-site #picker:has(#coop:not([hidden])) h1 { font: 26px Bungee, "Arial Black", sans-serif; color: #fff;
+      text-shadow: 2px 2px 0 #000; }
+    .on-site #coop button { border-color: #3a3a42; background: #2a2a31; }
+    .on-site #coop button.primary { background: #f5c518; color: #121212; border: 0; box-shadow: 0 3px 0 #a5830b;
+      font-family: Bungee, "Arial Black", sans-serif; text-transform: uppercase; letter-spacing: .03em; }
+    .on-site #coop-join { background: #2fbf71 !important; color: #08130c !important; border: 0 !important;
+      box-shadow: 0 3px 0 #1d7a48; font-weight: 700; }
+    .on-site #coop-players li { padding: .2rem 0; }
+    @media (max-width: 900px) {
+      .hero, .modes { grid-template-columns: 1fr; }
+      .legend, #options-root { grid-template-columns: 1fr; }
+      #topnav nav { display: none; }
+      .kb-key { height: 30px; font-size: 10px; }
+      .kb, .kb-row { gap: 3px; }
+      .kb { padding: 8px; }
+    }
+    /* bottom centre: the game's HUD uses the top corners and edges */
+    #tools { position: fixed; bottom: .5rem; left: 50%; transform: translateX(-50%); display: flex; flex-wrap: wrap;
+      justify-content: center; gap: .4rem; max-width: calc(100% - 1rem); opacity: .35; }
+    #tools:hover, #tools:focus-within { opacity: 1; }
+    #tools button, #tools label { white-space: nowrap; font: 12px system-ui, sans-serif; padding: .3rem .6rem; border-radius: 4px;
+      border: 1px solid #555; background: #1c1c20; color: var(--fg); cursor: pointer; }
+    #tools input { display: none; }
+    #tools button[aria-pressed="true"] { border-color: var(--accent); }
+    #fps { position: fixed; bottom: .5rem; left: .5rem; margin: 0; padding: .2rem .5rem; border-radius: 4px;
+      background: rgba(0, 0, 0, .6); color: #9f9; font: 12px ui-monospace, Menlo, monospace; pointer-events: none; }
+    #map-screen { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 5; cursor: crosshair;
+      touch-action: none; }
+    #map-overlay { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+    #map-radar { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 2; }
+    #tools { z-index: 6; }
+    #saved { margin: 1rem 0 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #333; }
+    #saved button { font: inherit; }
+    #play-saved { padding: .6rem 1.1rem; border-radius: 6px; border: 0; background: var(--accent); color: #fff;
+      font-weight: 600; cursor: pointer; }
+    #coop .row { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; margin: .8rem 0; }
+    #coop .field { display: flex; flex-direction: column; gap: .3rem; color: var(--muted); font-size: .9rem; }
+    #coop input, #coop select { font: inherit; padding: .45rem .6rem; border-radius: 6px; border: 1px solid #444;
+      background: #16161a; color: var(--fg); }
+    #coop button { font: inherit; padding: .5rem 1rem; border-radius: 6px; border: 1px solid var(--accent);
+      background: none; color: var(--fg); cursor: pointer; }
+    #coop button.primary { background: var(--accent); color: #fff; font-weight: 600; }
+    #coop button:disabled { opacity: .5; cursor: default; }
+    .on-server .p2p-only { display: none; }
+    #coop-link { width: min(100%, 30rem); }
+    #coop-players { margin: .4rem 0; padding-left: 1.4rem; }
+    #coop-players .crewtag { font-size: .8rem; padding: .05rem .4rem; border-radius: 4px; margin-left: .4rem; color: #111; font-weight: 700; }
+    .mode-help { color: var(--muted); font-size: .9rem; margin: .2rem 0; }
+    #coop input.num { width: 6.5rem; }
+    #coop input.num.wide { width: 9rem; }
+    #coop-crews { display: grid; gap: .5rem; margin: .5rem 0; }
+    #coop-crews .crew { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; padding: .5rem .7rem; border-radius: 8px;
+      background: #141418; border-left: 4px solid var(--c, #888); }
+    #coop-crews .crew b { min-width: 7rem; }
+    #coop-crews .crew.mine { outline: 1px solid var(--c); }
+    #coop-crews .crew button { margin-left: auto; }
+    #coop-crews .crew .who { color: var(--muted); font-size: .85rem; }
+    #coop-results { margin: .6rem 0; padding: .7rem .9rem; border-radius: 10px; background: #141418; border: 1px solid #2a2a31; }
+    #coop-results h3 { margin: 0 0 .4rem; font-size: 1rem; }
+    #coop-results table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+    #coop-results td, #coop-results th { padding: .2rem .4rem; text-align: left; }
+    #coop-results th { color: var(--muted); font-weight: 600; }
+    #freeware { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #333; }
+    #download-freeware { padding: .6rem 1.1rem; border-radius: 6px; border: 1px solid var(--accent); background: none;
+      color: var(--fg); font: inherit; font-weight: 600; cursor: pointer; }
+    #download-freeware:disabled { opacity: .5; cursor: default; }
+    label.button.secondary { background: none; border: 1px solid var(--accent); color: var(--fg); }
+    #freeware a { color: var(--fg); }
+    #forget-files { margin-left: .6rem; background: none; border: 0; color: var(--muted); text-decoration: underline;
+      cursor: pointer; }
   </style>
 </head>
 <body class="booting">
@@ -31,48 +262,342 @@
     <a class="logo" href="#top">GTA2<small data-i18n="ui.logo.tagline">in your browser</small></a>
     <nav data-i18n-aria="ui.nav.sections" aria-label="Sections">
       <a href="#play" data-i18n="ui.nav.play">Play</a><a href="#crews" data-i18n="ui.nav.crews">Crews</a><a href="#controls" data-i18n="ui.nav.controls">Controls</a><a href="#options" data-i18n="ui.nav.options">Options</a><a href="#help" data-i18n="ui.nav.help">Help</a>
-    </nav><span class="grow"></span><button class="btn" type="button" data-play data-i18n="ui.playNow">Play now</button>
+    </nav>
+    <span class="grow"></span>
+    <button class="btn" type="button" data-play data-i18n="ui.playNow">Play now</button>
   </header>
   <main>
     <div id="landing" hidden>
-      <section class="hero" id="top"><div class="card hero-shot"><img src="img/downtown.png" data-i18n-alt="ui.hero.shotAlt" alt="GTA2's Downtown district" width="800" height="452" onerror="this.closest('.hero').classList.add('no-shot')"><span class="tag" data-i18n="ui.hero.tag">Respect is everything</span></div>
-        <div class="card hero-side"><h1 data-i18n="ui.hero.title">GTA2 in your <span>browser</span></h1><p data-i18n="ui.hero.lead">The real 1999 game, running in your browser on any computer.</p><progress id="files-bar" max="1" value="0"></progress><span id="files-state" data-i18n="ui.files.preparing">Getting GTA2 ready…</span><div><button class="btn" type="button" data-play data-i18n="ui.playNow">Play now</button></div><div id="continue-root" hidden></div></div>
+      <section class="hero" id="top">
+        <div class="card hero-shot">
+          <img src="img/downtown.png" data-i18n-alt="ui.hero.shotAlt" alt="GTA2's Downtown district in widescreen, with the round radar" width="800" height="452"
+            onerror="this.closest('.hero').classList.add('no-shot')">
+          <span class="tag" data-i18n="ui.hero.tag">Respect is everything</span>
+        </div>
+        <div class="card hero-side">
+          <h1 data-i18n="ui.hero.title">GTA2 in your <span>browser</span></h1>
+          <p data-i18n="ui.hero.lead">The real 1999 game, running in your browser on any computer. Nothing to install. Widescreen,
+            smooth at your screen's refresh rate, a full map, and co-op with friends.</p>
+          <progress id="files-bar" max="1" value="0"></progress>
+          <span id="files-state" data-i18n="ui.files.preparing">Getting GTA2 ready…</span>
+          <div><button class="btn" type="button" data-play data-i18n="ui.playNow">Play now</button></div>
+          <div id="continue-root" hidden></div>
+        </div>
       </section>
-      <section class="modes" id="play"><div class="card mode"><h2 data-i18n="ui.mode.single">Single player</h2><span class="pill" data-i18n="ui.mode.singlePillDistricts">3 districts</span><span class="pill" data-i18n="ui.mode.singlePillSaves">Saves in your browser</span><p data-i18n="ui.mode.singleLead">The full story across three districts.</p><button class="btn" type="button" data-play data-i18n="ui.play">Play</button></div>
-        <div class="card mode"><h2 data-i18n="ui.mode.friends">Play with friends</h2><span class="pill" data-i18n="ui.mode.friendsPillPlayers">Up to 6 players</span><p data-i18n="ui.mode.friendsLead">Host a room and invite your friends.</p><button class="btn alt" type="button" data-coop data-i18n="ui.mode.hostOrJoin">Host or join</button></div>
-        <div class="card mode"><h2 data-i18n="ui.mode.map">The map</h2><span class="pill">M</span><span class="pill" data-i18n="ui.mode.mapPillWaypoints">Waypoints</span><p data-i18n="ui.mode.mapLead">Explore the city and set waypoints.</p><a class="btn ghost" href="#controls" style="display:inline-block;text-decoration:none" data-i18n="ui.mode.seeControls">See controls</a></div></section>
-      <section class="card" id="crews"><h2 class="section-title" data-i18n="ui.crews.title">Crew leaderboard</h2><p class="section-sub" data-i18n="ui.crews.sub">Gang Wars crews on this server.</p><div id="leaderboard-root"><p class="section-sub" data-i18n="ui.crews.empty">No crews yet.</p></div></section>
-      <section class="card" id="controls"><h2 class="section-title" data-i18n="ui.controls.title">Controls</h2><div class="seg controls-tabs" id="controls-tabs" role="tablist" aria-label="Controls"><button type="button" role="tab" id="tab-kb" aria-controls="panel-kb" aria-selected="true" data-i18n="ui.controls.keyboard">Keyboard</button><button type="button" role="tab" id="tab-pad" aria-controls="panel-pad" aria-selected="false" tabindex="-1" data-i18n="ui.controller">Controller</button></div><div id="panel-kb" role="tabpanel" aria-labelledby="tab-kb"><p class="section-sub" data-i18n="ui.controls.changeNote">Change controls in game Options.</p><div id="kb-root"></div><div id="legend-root"></div></div><div id="panel-pad" role="tabpanel" aria-labelledby="tab-pad" hidden><p id="pad-status" role="status"></p><div id="pad-root"></div><div id="pad-legend-root"></div><p class="section-sub pad-note" data-i18n="ui.controls.padNote">Controller controls.</p></div></section>
-      <section class="card" id="options"><h2 class="section-title" data-i18n="ui.options.title">Options</h2><p class="section-sub" data-i18n="ui.options.intro">Saved in this browser.</p><div id="options-root"></div></section>
-      <section class="card faq" id="help"><h2 class="section-title" data-i18n="ui.help.title">Help and FAQ</h2><details open><summary data-i18n="ui.help.q1">What is this?</summary><p data-i18n="ui.help.a1">Grand Theft Auto 2 running in a browser.</p></details><details><summary data-i18n="ui.help.q2">Do I need to install anything?</summary><p data-i18n="ui.help.a2">No installation is required.</p></details><details><summary data-i18n="ui.help.q3">How does co-op work?</summary><p data-i18n="ui.help.a3">Host a room and invite friends.</p></details><details><summary data-i18n="ui.help.q4">Where are my saves?</summary><p data-i18n="ui.help.a4">Saves are stored in this browser.</p></details><details><summary data-i18n="ui.help.q5">It runs slowly or looks wrong</summary><p data-i18n="ui.help.a5">Try the FPS counter and reduce graphics options.</p></details><details id="stats-faq" hidden><summary data-i18n="ui.help.q8">Do you track me?</summary><p data-i18n="ui.help.a8">Anonymous usage counts only.</p></details><details><summary data-i18n="ui.help.q6">Is it legal?</summary><p data-i18n="ui.help.a6">This is an unofficial fan project.</p></details><details><summary data-i18n="ui.help.q7">Which languages are there?</summary><p data-i18n="ui.help.a7">English, Spanish and French.</p></details></section>
-      <p class="landing-foot" data-i18n="ui.foot.credit"><a href="https://github.com/M1sterMo/gta2-browser" target="_blank" rel="noopener">Source and credits on GitHub</a> · Grand Theft Auto 2 © Rockstar Games</p>
+
+      <section class="modes" id="play">
+        <div class="card mode">
+          <h2 data-i18n="ui.mode.single">Single player</h2>
+          <span class="pill" data-i18n="ui.mode.singlePillDistricts">3 districts</span><span class="pill" data-i18n="ui.mode.singlePillSaves">Saves in your browser</span>
+          <p data-i18n="ui.mode.singleLead">The full story: Downtown, Residential and Industrial. Earn respect with the gangs, take their jobs,
+            and keep the cops off your back.</p>
+          <button class="btn" type="button" data-play data-i18n="ui.play">Play</button>
+        </div>
+        <div class="card mode">
+          <h2 data-i18n="ui.mode.friends">Play with friends</h2>
+          <span class="pill" data-i18n="ui.mode.friendsPillPlayers">Up to 6 players</span><span class="pill" data-i18n="ui.mode.roam">Free roam</span>
+          <p data-i18n="ui.mode.friendsLead">Host a room and send your friends the link. Everyone sees each other on the map, shares waypoints,
+            and keeps score.</p>
+          <button class="btn alt" type="button" data-coop data-i18n="ui.mode.hostOrJoin">Host or join</button>
+        </div>
+        <div class="card mode">
+          <h2 data-i18n="ui.mode.map">The map</h2>
+          <span class="pill">M</span><span class="pill" data-i18n="ui.mode.mapPillWaypoints">Waypoints</span>
+          <p data-i18n="ui.mode.mapLead">A full map of each district that fills in as you explore, with gang jobs, phones, garages and
+            save points. Click anywhere to set a waypoint.</p>
+          <a class="btn ghost" href="#controls" style="display:inline-block;text-decoration:none" data-i18n="ui.mode.seeControls">See controls</a>
+        </div>
+      </section>
+
+      <section class="card" id="crews">
+        <h2 class="section-title" data-i18n="ui.crews.title">Crew leaderboard</h2>
+        <p class="section-sub" data-i18n="ui.crews.sub">Gang Wars crews on this server. Win matches, rack up kills and points to climb.
+          A win is worth 50 reputation, each kill 5, each death −2, and every $10,000 of points 1.</p>
+        <div id="leaderboard-root"><p class="section-sub" data-i18n="ui.crews.empty">No crews yet. Start a Gang War: "Play with friends", then mode "Gang Wars".</p></div>
+      </section>
+
+      <section class="card" id="controls">
+        <h2 class="section-title" data-i18n="ui.controls.title">Controls</h2>
+        <div class="seg controls-tabs" id="controls-tabs" role="tablist" data-i18n-aria="ui.controls.title" aria-label="Controls">
+          <button type="button" role="tab" id="tab-kb" aria-controls="panel-kb" aria-selected="true" data-i18n="ui.controls.keyboard">Keyboard</button>
+          <button type="button" role="tab" id="tab-pad" aria-controls="panel-pad" aria-selected="false" tabindex="-1" data-i18n="ui.controller">Controller</button>
+        </div>
+        <div id="panel-kb" role="tabpanel" aria-labelledby="tab-kb">
+          <p class="section-sub" data-i18n="ui.controls.changeNote">Change any of them in the game: Options on the main menu, or the Controls button under the game.</p>
+          <div id="kb-root"></div>
+          <div id="legend-root"></div>
+        </div>
+        <div id="panel-pad" role="tabpanel" aria-labelledby="tab-pad" hidden>
+          <p class="section-sub" id="pad-status" role="status"></p>
+          <div class="pad-wrap" id="pad-root"></div>
+          <div id="pad-legend-root"></div>
+          <p class="section-sub pad-note" data-i18n="ui.controls.padNote">In the game's menus and on the map: ✕ confirms, ○ goes back, the left stick or
+            d-pad moves, L1 / R1 zoom the map.</p>
+        </div>
+      </section>
+
+      <section class="card" id="options">
+        <h2 class="section-title" data-i18n="ui.options.title">Options</h2>
+        <p class="section-sub" data-i18n="ui.options.intro">Saved in this browser and used next time you start. The buttons at the bottom of the
+          game screen change most of them while you play.</p>
+        <div id="options-root"></div>
+      </section>
+
+      <section class="card faq" id="help">
+        <h2 class="section-title" data-i18n="ui.help.title">Help and FAQ</h2>
+        <details open><summary data-i18n="ui.help.q1">What is this?</summary>
+          <p data-i18n="ui.help.a1">Grand Theft Auto 2 (DMA Design, 1999), running from the community's reconstruction of its original code,
+            compiled for the web. It plays like the original, with modern extras: widescreen, a smoother camera,
+            smooth motion on high-refresh screens, a map with waypoints, and co-op.</p></details>
+        <details><summary data-i18n="ui.help.q2">Do I need to install anything?</summary>
+          <p data-i18n="ui.help.a2">No. The first visit downloads the game once (about 355 MB) and keeps it in your browser, so later
+            visits start straight away. Use a desktop browser: Chrome, Edge, Firefox, Safari or Brave, on Windows,
+            macOS, Linux or ChromeOS.</p></details>
+        <details><summary data-i18n="ui.help.q3">How does co-op work?</summary>
+          <p data-i18n="ui.help.a3">Press "Host or join", host a room, and send your friends the link the lobby shows. When everyone is in,
+            pick a district and start. Every player's browser runs the whole game; only key presses travel between
+            you. Hold Tab for the scoreboard; your friends show on the map and radar in their own colours.</p></details>
+        <details><summary data-i18n="ui.help.q4">Where are my saves?</summary>
+          <p data-i18n="ui.help.a4">In this browser. Use "Export saves" at the bottom of the game screen to keep a copy, and "Import saves"
+            to bring them to another browser.</p></details>
+        <details><summary data-i18n="ui.help.q5">It runs slowly or looks wrong</summary>
+          <p data-i18n="ui.help.a5">Turn on the FPS counter in Options. Close other heavy tabs, and try another browser if it stays low.
+            "Motion: Original 30 fps" and "Screen shape: 4:3 original" are the lightest settings.</p></details>
+        <details id="stats-faq" hidden><summary data-i18n="ui.help.q8">Do you track me?</summary>
+          <p data-i18n="ui.help.a8">No cookies and no personal data. This site counts visits, games started, how long games run
+            (in steps such as "over 30 minutes") and first-time downloads, anonymously with
+            <a href="https://www.goatcounter.com" target="_blank" rel="noopener">GoatCounter</a>,
+            so we know how many people play.</p></details>
+        <details><summary data-i18n="ui.help.q6">Is it legal?</summary>
+          <p data-i18n="ui.help.a6">GTA2 was released as freeware by Rockstar Games in 2004. This is an unofficial, non-commercial fan
+            project, not affiliated with Rockstar Games or Take-Two Interactive. GTA2 is © Rockstar Games.</p></details>
+        <details><summary data-i18n="ui.help.q7">Which languages are there?</summary>
+          <p data-i18n="ui.help.a7">English, Spanish and French, for this page and for the game itself: menus, HUD and status
+            messages. Mission briefs are only translated when your game files include the game's own Spanish or French texts;
+            otherwise they stay in English.</p></details>
+      </section>
+      <p class="landing-foot" data-i18n="ui.foot.credit"><a href="https://github.com/M1sterMo/gta2-browser" target="_blank" rel="noopener">Source and credits on GitHub</a>
+        · Grand Theft Auto 2 © Rockstar Games</p>
     </div>
     <section id="picker">
-      <h1 data-i18n="ui.picker.title">GTA2 in your browser</h1>
-      <p class="picker-intro" data-i18n="ui.picker.intro">Choose your installed GTA2 folder (the one containing <code>data</code>). Your game files are read locally and never leave this computer.</p>
-      <div class="picker-box"><h2>How to play</h2><ol><li>Choose how to provide your GTA2 files below.</li><li>Wait for the files to load and pass validation, then the game will start.</li><li>Use WASD or the arrow keys to move; click the game view to enable mouse control.</li></ol></div>
-      <div class="picker-box"><h2>Choose an option</h2><p>Game files are processed locally. Pick a method that works for you:</p>
-        <div class="picker-actions"><label class="button" for="folder"><span data-i18n="ui.picker.choose">Choose GTA2 folder</span></label><label class="button secondary" for="installer-file"><span data-i18n="ui.freeware.choose">Import GTA2INSTALLER.exe</span></label></div>
-      </div>
-      <div id="saved" hidden><p id="saved-info"></p><button id="play-saved" type="button" data-i18n="ui.play">Play</button><button id="forget-files" type="button" data-i18n="ui.picker.forget">Forget game files</button></div>
-      <div id="freeware" class="picker-box"><h2>Get the freeware release</h2><p data-i18n="ui.freeware.lead">Download the freeware release into this browser (346 MB); it is unpacked here and kept for next time.</p><button id="download-freeware" type="button" data-i18n="ui.freeware.download">Download GTA2 (free, 346 MB)</button>
-        <p id="installer-pick" data-i18n="ui.freeware.pick">Or download <code>GTA2INSTALLER.exe</code> from the <a href="https://archive.org/details/gta2_rockstar-classics" target="_blank" rel="noopener">Internet Archive</a> yourself and choose it here:</p>
-        <div class="picker-actions"><a class="button secondary" href="https://archive.org/details/gta2_rockstar-classics" target="_blank" rel="noopener">Open download page</a><label class="button secondary" for="installer-file"><span data-i18n="ui.freeware.choose">Choose GTA2INSTALLER.exe</span></label></div>
-      </div>
+      <h1 data-i18n="ui.picker.title">GTA2 in the browser</h1>
+      <p data-i18n="ui.picker.intro">Choose your installed GTA2 folder (the one containing <code>data</code>). Your game files are read
+        locally and never leave this computer.</p>
       <div id="coop" hidden>
-        <p data-i18n="ui.coop.lead">Free roam with friends in a story district. Everyone runs the game; only key presses travel between players.</p><p class="p2p-only" data-i18n="ui.coop.p2p">They go directly from browser to browser. Each player needs their own copy.</p>
-        <label class="field"><span data-i18n="ui.coop.yourName">Your name</span><input id="coop-name" maxlength="16" data-i18n-placeholder="ui.coop.namePlaceholder" placeholder="Player"></label>
-        <div class="row"><button id="coop-host" type="button" class="primary" data-i18n="ui.coop.host">Host a game</button><span data-i18n="ui.coop.or">or</span><input id="coop-code" maxlength="8" data-i18n-placeholder="ui.coop.roomCode" data-i18n-aria="ui.coop.roomCode" placeholder="Room code" aria-label="Room code"><button id="coop-join" type="button" data-i18n="ui.coop.join">Join</button></div>
-        <p id="coop-state" role="status"></p><p id="coop-invite" hidden><span data-i18n="ui.coop.invite">Send your friends this link:</span><input id="coop-link" readonly data-i18n-aria="ui.coop.inviteLink" aria-label="Invite link"><button id="coop-copy" type="button" data-i18n="ui.coop.copy">Copy</button></p><div id="coop-results" hidden></div><ol id="coop-players"></ol>
-        <div class="row"><label class="field"><span data-i18n="ui.coop.mode">Mode</span><select id="coop-mode"><option value="roam" data-i18n="ui.mode.roam">Free roam</option><option value="wars" data-i18n="ui.mode.wars">Gang Wars</option><option value="ffa" data-i18n="ui.mode.ffa">Free-for-all</option></select></label><label class="field"><span data-i18n="ui.coop.district">District</span><select id="coop-district"><option value="downtown" data-i18n="ui.district.downtown">Downtown</option><option value="residential" data-i18n="ui.district.residential">Residential</option><option value="industrial" data-i18n="ui.district.industrial">Industrial</option></select></label><label class="field" data-modes="wars ffa"><span data-i18n="ui.coop.timeLimit">Time limit (min, 0 = none)</span><input id="coop-minutes" type="number" min="0" max="60" step="1" class="num"></label><label class="field" data-modes="ffa"><span data-i18n="ui.coop.killsToWin">Kills to win</span><input id="coop-kills" type="number" min="0" max="999" step="1" class="num"></label><label class="field" data-modes="wars"><span data-i18n="ui.coop.pointsToWin">Points to win</span><input id="coop-points" type="number" min="0" max="100000000" step="10000" class="num wide"></label><label class="field" data-modes="roam"><span data-i18n="ui.coop.friendlyFire">Friendly fire</span><span><input id="coop-ff" type="checkbox"> <span data-i18n="ui.coop.ffHint">players can hurt each other</span></span></label></div>
-        <p id="coop-mode-help" class="mode-help"></p><p id="coop-lang" class="mode-help"></p><div class="row" data-modes="wars"><label class="field"><span data-i18n="ui.coop.newCrew">New crew</span><input id="coop-crew" list="coop-crew-list" maxlength="16" data-i18n-placeholder="ui.coop.crewPlaceholder" placeholder="Crew name"></label><datalist id="coop-crew-list"></datalist></div><div id="coop-crews" data-modes="wars"></div><div class="row"><button id="coop-start" type="button" class="primary" hidden data-i18n="ui.coop.start">Start</button><span id="coop-start-why" class="mode-help"></span></div>
+        <p data-i18n="ui.coop.lead">Free roam with friends in a story district, using GTA2's own multiplayer.
+          Everyone runs the game; only key presses travel between players.</p>
+        <p class="p2p-only" data-i18n="ui.coop.p2p">They go directly from browser to browser (peer to peer, no game
+          server). Each player needs their own copy of the game files.</p>
+        <label class="field"><span data-i18n="ui.coop.yourName">Your name</span> <input id="coop-name" maxlength="16" data-i18n-placeholder="ui.coop.namePlaceholder" placeholder="Player"></label>
+        <div class="row">
+          <button id="coop-host" type="button" class="primary" data-i18n="ui.coop.host">Host a game</button>
+          <span data-i18n="ui.coop.or">or</span>
+          <input id="coop-code" maxlength="8" data-i18n-placeholder="ui.coop.roomCode" data-i18n-aria="ui.coop.roomCode" placeholder="Room code" aria-label="Room code">
+          <button id="coop-join" type="button" data-i18n="ui.coop.join">Join</button>
+        </div>
+        <p id="coop-state" role="status"></p>
+        <p id="coop-invite" hidden><span data-i18n="ui.coop.invite">Send your friends this link:</span> <input id="coop-link" readonly data-i18n-aria="ui.coop.inviteLink" aria-label="Invite link">
+          <button id="coop-copy" type="button" data-i18n="ui.coop.copy">Copy</button></p>
+        <div id="coop-results" hidden></div>
+        <ol id="coop-players"></ol>
+        <div class="row">
+          <label class="field"><span data-i18n="ui.coop.mode">Mode</span>
+            <select id="coop-mode">
+              <option value="roam" data-i18n="ui.mode.roam">Free roam</option>
+              <option value="wars" data-i18n="ui.mode.wars">Gang Wars</option>
+              <option value="ffa" data-i18n="ui.mode.ffa">Free-for-all</option>
+            </select>
+          </label>
+          <label class="field"><span data-i18n="ui.coop.district">District</span>
+            <select id="coop-district">
+              <option value="downtown" data-i18n="ui.district.downtown">Downtown</option>
+              <option value="residential" data-i18n="ui.district.residential">Residential</option>
+              <option value="industrial" data-i18n="ui.district.industrial">Industrial</option>
+            </select>
+          </label>
+          <label class="field" data-modes="wars ffa"><span data-i18n="ui.coop.timeLimit">Time limit (min, 0 = none)</span>
+            <input id="coop-minutes" type="number" min="0" max="60" step="1" list="coop-minutes-list" class="num">
+            <datalist id="coop-minutes-list"><option value="10"><option value="20"><option value="30"><option value="60"></datalist>
+          </label>
+          <label class="field" data-modes="ffa"><span data-i18n="ui.coop.killsToWin">Kills to win (0 = no limit)</span>
+            <input id="coop-kills" type="number" min="0" max="999" step="1" list="coop-kills-list" class="num">
+            <datalist id="coop-kills-list"><option value="5"><option value="10"><option value="20"><option value="50"></datalist>
+          </label>
+          <label class="field" data-modes="wars"><span data-i18n="ui.coop.pointsToWin">Points to win ($, 0 = no target)</span>
+            <input id="coop-points" type="number" min="0" max="100000000" step="10000" list="coop-points-list" class="num wide">
+            <datalist id="coop-points-list"><option value="250000"><option value="500000"><option value="1000000"><option value="5000000"></datalist>
+          </label>
+          <label class="field ff" data-modes="roam"><span data-i18n="ui.coop.friendlyFire">Friendly fire</span>
+            <span><input id="coop-ff" type="checkbox"> <span data-i18n="ui.coop.ffHint">players can hurt each other</span></span></label>
+        </div>
+        <p id="coop-mode-help" class="mode-help"></p>
+        <p id="coop-lang" class="mode-help"></p>
+        <div class="row" data-modes="wars">
+          <label class="field"><span data-i18n="ui.coop.newCrew">New crew (or join one below)</span>
+            <input id="coop-crew" list="coop-crew-list" maxlength="16" data-i18n-placeholder="ui.coop.crewPlaceholder" placeholder="Crew name, e.g. Hexen">
+          </label>
+          <datalist id="coop-crew-list"></datalist>
+        </div>
+        <div id="coop-crews" data-modes="wars"></div>
+        <div class="row">
+          <button id="coop-start" type="button" class="primary" hidden data-i18n="ui.coop.start">Start</button>
+          <span id="coop-start-why" class="mode-help"></span>
+        </div>
       </div>
-      <input id="folder" type="file" webkitdirectory directory multiple hidden><input id="installer-file" type="file" accept=".exe,application/octet-stream" hidden>
+      <div id="saved" hidden>
+        <p id="saved-info"></p>
+        <button id="play-saved" type="button" data-i18n="ui.play">Play</button>
+        <button id="forget-files" type="button" data-i18n="ui.picker.forget">Forget game files</button>
+      </div>
+      <label class="button"><span data-i18n="ui.picker.choose">Choose GTA2 folder</span>
+        <input id="folder" type="file" webkitdirectory directory multiple>
+      </label>
+      <div id="freeware">
+        <p data-i18n="ui.freeware.lead">No GTA2 installed? Rockstar released it free in 2004. Download that release from the
+          Internet Archive straight into this browser (346 MB); it is unpacked here and kept for next time.</p>
+        <button id="download-freeware" type="button" data-i18n="ui.freeware.download">Download GTA2 (free, 346 MB)</button>
+        <p id="installer-pick" data-i18n="ui.freeware.pick">Or download <code>GTA2INSTALLER.exe</code> from the
+          <a href="https://archive.org/details/gta2_rockstar-classics" target="_blank" rel="noopener">Internet Archive</a>
+          yourself and choose it here:</p>
+        <label class="button secondary"><span data-i18n="ui.freeware.choose">Choose GTA2INSTALLER.exe</span>
+          <input id="installer-file" type="file" accept=".exe,application/octet-stream">
+        </label>
+      </div>
     </section>
-    <section id="game" hidden><canvas id="screen" tabindex="0"></canvas></section>
-    <p id="status" role="status"></p><p id="coop-banner" role="status" hidden></p><p id="fps" hidden></p>
-    <div id="tools" hidden><button id="camera" type="button">Camera: Modern</button><button id="view-distance" type="button">View: Normal</button><button id="map-open" type="button" data-i18n="ui.tools.map" data-i18n-title="ui.tools.mapTitle" title="Full map (M): set a waypoint">Map (M)</button><button id="minimap-toggle" type="button" aria-pressed="true">Minimap</button><button id="fps-toggle" type="button" aria-pressed="false">FPS</button><button id="fullscreen" type="button" data-i18n="ui.tools.fullscreen">Full screen</button><button id="mute" type="button">Mute</button><button id="saves-open" type="button" data-i18n="ui.tools.saves">Saves</button><button id="controls-open" type="button" data-i18n="ui.tools.controls" data-i18n-title="ui.tools.controlsTitle" title="Change the game's keys">Controls</button><button id="export-saves" type="button" data-i18n="ui.tools.export">Export saves</button><label><span data-i18n="ui.tools.import">Import saves</span><input id="import-saves" type="file" accept="application/json,.json"></label><button id="lang-toggle" type="button">English</button></div>
+    <section id="game" hidden>
+      <canvas id="screen" tabindex="0"></canvas>
+    </section>
+    <p id="status" role="status"></p>
+    <p id="coop-banner" role="status" hidden></p>
+    <p id="fps" hidden></p>
+    <div id="tools" hidden>
+      <!-- Stateful labels (they follow the button's state): no data-i18n here, the shell
+           re-renders them on a language change. -->
+      <button id="camera" type="button">Camera: Modern</button>
+      <button id="view-distance" type="button">View: Normal</button>
+      <button id="map-open" type="button" data-i18n="ui.tools.map" data-i18n-title="ui.tools.mapTitle" title="Full map (M): set a waypoint">Map (M)</button>
+      <button id="minimap-toggle" type="button" aria-pressed="true">Minimap</button>
+      <button id="fps-toggle" type="button" aria-pressed="false">FPS</button>
+      <button id="fullscreen" type="button">Full screen</button>
+      <button id="mute" type="button">Mute</button>
+      <button id="saves-open" type="button" data-i18n="ui.tools.saves">Saves</button>
+      <button id="controls-open" type="button" data-i18n="ui.tools.controls" data-i18n-title="ui.tools.controlsTitle" title="Change the game's keys">Controls</button>
+      <button id="export-saves" type="button" data-i18n="ui.tools.export">Export saves</button>
+      <label><span data-i18n="ui.tools.import">Import saves</span><input id="import-saves" type="file" accept="application/json,.json"></label>
+      <button id="lang-toggle" type="button">English</button>
+    </div>
   </main>
+  <!-- strings.js is imported by shell.js (one module instance); it applies the stored
+       language as soon as the page's markup is parsed. -->
   <script type="module" src="shell.js?v=11ff9757d2"></script>
+  <!-- === 自定义增强：顶部下载直链横幅 + 醒目本地加载快捷工具栏 === -->
+<style>
+  #custom-gta2-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 99999;
+    background: linear-gradient(90deg, #111827, #1f2937);
+    color: #f9fafb;
+    padding: 12px 20px;
+    border-bottom: 2px solid #f59e0b;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: system-ui, -apple-system, sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+  #custom-gta2-topbar .banner-title {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  #custom-gta2-topbar .banner-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .gta2-quick-btn {
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    transition: transform 0.1s, opacity 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .gta2-quick-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-ia-dl { background: #3b82f6; color: #fff !important; }
+  .btn-local-exe { background: #10b981; color: #fff; }
+</style>
+
+<div id="custom-gta2-topbar">
+  <div class="banner-title">
+    <strong>🎮 Local High-Speed ​​Launch Channel:</strong> For your first session, please download the official free package (346 MB), then click the green button on the right to import it. The data will be automatically cached in your browser, allowing for instant loading next time.
+  </div>
+  <div class="banner-actions">
+    <a class="gta2-quick-btn btn-ia-dl" 
+       href="https://archive.org/details/gta2_rockstar-classics" 
+       target="_blank" 
+       rel="noopener noreferrer">
+      ⬇️ 1. Download the official installer (direct link from Internet Archive)
+    </a>
+    <button class="gta2-quick-btn btn-local-exe" onclick="triggerOriginalAction('GTA2INSTALLER.exe', '.exe')">
+      📂 2. Import local GTA2INSTALLER.exe
+    </button>
+  </div>
+</div>
+<script>
+  // 将顶部快捷横幅置顶到 body 最前面
+  document.addEventListener('DOMContentLoaded', () => {
+    const bar = document.getElementById('custom-gta2-topbar');
+    if (bar && document.body.firstChild) {
+      document.body.insertBefore(bar, document.body.firstChild);
+    }
+  });
+
+  // 安全触发原网页隐藏的文件选择逻辑（不破坏原有 JS 事件绑定）
+  function triggerOriginalAction(keyword, fallbackAttr) {
+    // 1. 先尝试点击进入游戏面板（防止面板未初始化）
+    const playNowBtn = Array.from(document.querySelectorAll('button, a'))
+      .find(el => el.textContent.trim() === 'Play now' || el.textContent.trim() === 'Play');
+    if (playNowBtn) playNowBtn.click();
+
+    setTimeout(() => {
+      // 2. 查找包含对应关键词的原始按钮或 label
+      const targetBtn = Array.from(document.querySelectorAll('button, label'))
+        .find(el => !el.closest('#custom-gta2-topbar') && el.textContent.includes(keyword));
+      
+      if (targetBtn) {
+        targetBtn.click();
+        return;
+      }
+
+      // 3. 兜底直接查找原生 file input
+      const inputs = Array.from(document.querySelectorAll('input[type="file"]'));
+      const matchedInput = fallbackAttr === 'directory'
+        ? inputs.find(i => i.webkitdirectory || i.hasAttribute('webkitdirectory'))
+        : inputs.find(i => !i.webkitdirectory);
+
+      if (matchedInput) {
+        matchedInput.click();
+      } else {
+       alert('File selector not detected. Please click "Forget game files" on the page to clear the previous state, then try again.');
+      }
+    }, 150);
+  }
+
+  function triggerOriginalPlay() {
+    const playBtn = Array.from(document.querySelectorAll('button, a'))
+      .find(el => !el.closest('#custom-gta2-topbar') && (el.textContent.trim() === 'Play now' || el.textContent.trim() === 'Play'));
+    if (playBtn) playBtn.click();
+  }
+</script>
+
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"3420fc1139f44349b14e79be446d4505","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
