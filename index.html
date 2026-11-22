@@ -363,6 +363,12 @@
 
 
     /* Separate, fixed game screen (same topbar/viewport structure as GTA3-WASM). */
+    html.game-on {
+      width: 100%;
+      height: 100%;
+      overflow: hidden !important;
+      overscroll-behavior: none;
+    }
     body.game-on {
       position: fixed;
       inset: 0;
