@@ -1400,6 +1400,7 @@ if (window.GTA2_NO_DIRECT_DOWNLOAD) $('download-freeware').hidden = true;
 $('installer-file').addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
+  enterGameView();
   try {
     const files = await unpackInstallerFile(file, (stage) => {
       if (stage === 'read') setStatus(t('shell.readingInstaller'));
@@ -1415,6 +1416,7 @@ $('installer-file').addEventListener('change', async (e) => {
 
 $('download-freeware').addEventListener('click', async (e) => {
   const button = e.currentTarget;
+  enterGameView();
   button.disabled = true;
   const mb = (n) => Math.round(n / 1048576);
   const t0 = performance.now();
