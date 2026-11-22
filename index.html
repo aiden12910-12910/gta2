@@ -359,7 +359,7 @@
   <header id="topnav" hidden>
     <a class="logo" href="#top">GTA2<small data-i18n="ui.logo.tagline">in your browser</small></a>
     <nav data-i18n-aria="ui.nav.sections" aria-label="Sections">
-      <a href="#play" data-i18n="ui.nav.play">Play</a><a href="#crews" data-i18n="ui.nav.crews">Crews</a><a href="#controls" data-i18n="ui.nav.controls">Controls</a><a href="#options" data-i18n="ui.nav.options">Options</a><a href="#help" data-i18n="ui.nav.help">Help</a><a href="./pocket.html">Jump to pocket version</a>
+      <a href="#play" data-i18n="ui.nav.play">Play</a><a href="#crews" data-i18n="ui.nav.crews">Crews</a><a href="#controls" data-i18n="ui.nav.controls">Controls</a><a href="#options" data-i18n="ui.nav.options">Options</a><a href="#help" data-i18n="ui.nav.help">Help</a>
     <button class="btn" type="button" data-play data-i18n="ui.playNow">Play now</button>
   </header>
   <main>
@@ -368,10 +368,9 @@
         <h1>GTA2 in your browser</h1>
         <p>Choose one of the three ways to load GTA2.</p>
         <div class="launch-actions">
-          <label class="launch-btn" for="installer-file">Select EXE / Import</label>
-          <input id="installer-file" type="file" accept=".exe,application/octet-stream" hidden>
+          <label class="launch-btn">Select EXE / Import<input id="installer-file" type="file" accept=".exe,application/octet-stream" hidden></label>
           <a href="https://archive.org/details/gta2_rockstar-classics" target="_blank" rel="noopener noreferrer">Open Internet Archive download</a>
-          <button id="download-freeware" type="button" data-i18n="ui.freeware.download">Download GTA2 (free, 346 MB)</button>
+          <button id="download-freeware" type="button">Download to Browser</button>
         </div>
         <span id="files-state" data-i18n="ui.files.preparing">Getting GTA2 ready…</span>
         <progress id="files-bar" max="1" value="0"></progress>
