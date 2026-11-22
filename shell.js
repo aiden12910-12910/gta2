@@ -465,6 +465,18 @@ function setStatus(text, isError = false) {
   const el = $('status');
   el.textContent = text;
   el.classList.toggle('error', isError);
+  const dot = $('game-status-dot');
+  if (dot) dot.dataset.state = isError ? 'error' : (text ? 'loading' : 'ok');
+}
+
+/** Switch from the launcher to a separate, scroll-free gameplay screen. */
+function enterGameView() {
+  document.body.classList.remove('landing-on');
+  document.body.classList.add('game-on');
+  $('landing').hidden = true;
+  $('topnav').hidden = true;
+  $('picker').hidden = true;
+  $('game-view').hidden = false;
 }
 
 /** @returns {Map<string, File|Blob>} game files keyed by lowercased relative path. */
@@ -1168,7 +1180,7 @@ function coopView(Module, { lobby, players, mySlot, mode = 'roam', crews = [] })
 
 async function start(getFiles, { cacheAfterStart = false, coop = null, loadSlot = null } = {}) {
   const startOptions = { commandLine: coop ? '-N' : '' };
-  $('picker').hidden = true;
+  enterGameView();
   setStatus(t('shell.starting'));
   try {
     const canvas = $('screen');
@@ -1374,8 +1386,10 @@ async function start(getFiles, { cacheAfterStart = false, coop = null, loadSlot 
     }
   } catch (err) {
     console.error(err);
+    $('game').hidden = true;
+    $('picker').hidden = true;
+    $('game-view').hidden = false;
     setStatus(err.message || String(err), true);
-    $('picker').hidden = false;
   }
 }
 
