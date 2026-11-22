@@ -2,7 +2,7 @@
 
 **Grand Theft Auto 2 (1999), the real game, in a browser tab.** No install. Bring friends.
 
-### ▶ [Play now](https://m1stermo.github.io/gta2/)
+### ▶ [Play now](https://grand-theft-auto-ii.uran1um.dpdns.org/)
 
 - The first time you press Play, the page downloads the official 2004 freeware release of GTA2
   from the [Internet Archive](https://archive.org/details/gta2_rockstar-classics) (346 MB). It
