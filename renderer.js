@@ -133,7 +133,8 @@ export class Gta2Renderer {
       this.canvas.width = w;
       this.canvas.height = h;
     }
-    const scale = Math.min(w / refW, h / REF_H);
+    // Never upscale the original game image. On high-DPI displays, allow one backing-store pixel per device pixel.
+    const scale = Math.min(dpr, w / refW, h / REF_H);
     this.viewport = {
       w: Math.round(refW * scale),
       h: Math.round(REF_H * scale),
