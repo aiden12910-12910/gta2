@@ -471,10 +471,9 @@ function setStatus(text, isError = false) {
 
 /** Switch from the launcher to a separate, scroll-free gameplay screen. */
 function enterGameView() {
-  document.body.classList.remove('landing-on');
+  hideLanding();
+  document.documentElement.classList.add('game-on');
   document.body.classList.add('game-on');
-  $('landing').hidden = true;
-  $('topnav').hidden = true;
   $('picker').hidden = true;
   $('game-view').hidden = false;
 }
