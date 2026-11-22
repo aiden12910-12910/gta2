@@ -361,6 +361,142 @@
       .landing-on #landing { margin-top: 1rem; }
     }
 
+
+    /* Separate, fixed game screen (same topbar/viewport structure as GTA3-WASM). */
+    body.game-on {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      overflow: hidden !important;
+      overscroll-behavior: none;
+    }
+    body.game-on main { width: 100%; height: 100%; min-height: 0; overflow: hidden; }
+    #game-view {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+      background: #000;
+    }
+    #game-topbar {
+      position: relative;
+      z-index: 20;
+      flex: 0 0 42px;
+      min-height: 42px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      padding: .45rem .85rem;
+      color: var(--fg);
+      background: #18181d;
+      border-bottom: 1px solid #2a2a31;
+      font-size: .85rem;
+    }
+    .game-status-dot {
+      width: .55rem;
+      height: .55rem;
+      flex: none;
+      border-radius: 50%;
+      background: #9a978f;
+    }
+    .game-status-dot[data-state="loading"] { background: #e5b84b; }
+    .game-status-dot[data-state="ok"] { background: #55c878; }
+    .game-status-dot[data-state="error"] { background: #ff7777; }
+    .game-topbar-title { flex: none; color: #e8e6e3; white-space: nowrap; }
+    #game-topbar #status {
+      position: static;
+      flex: 1 1 auto;
+      min-width: 0;
+      margin: 0;
+      color: #aaa7a1;
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font: inherit;
+    }
+    #game-topbar #status.error { color: #ff8a8a; }
+    #game-topbar #fps {
+      position: static;
+      flex: none;
+      margin: 0;
+      padding: .2rem .45rem;
+      border-radius: 4px;
+      background: rgba(0,0,0,.45);
+      color: #9f9;
+      font: 12px ui-monospace, Menlo, monospace;
+      white-space: nowrap;
+    }
+    body.game-on #game {
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: auto;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+      background: #000;
+    }
+    body.game-on #screen {
+      display: block;
+      flex: 1 1 auto;
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      background: #000;
+      outline: none;
+      image-rendering: pixelated;
+    }
+    body.game-on #tools { z-index: 30; }
+    #coop-banner { z-index: 25; }
+    /* Clear tactile feedback for the three launcher actions and in-game toolbar. */
+    .launch-actions .launch-btn,
+    .launch-actions > a,
+    .launch-actions > button,
+    #tools button,
+    #tools label {
+      transition: transform .08s ease, filter .08s ease, background-color .08s ease, box-shadow .08s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .launch-actions .launch-btn:hover,
+    .launch-actions > a:hover,
+    .launch-actions > button:hover { filter: brightness(1.1); }
+    .launch-actions .launch-btn:active,
+    .launch-actions > a:active,
+    .launch-actions > button:active,
+    #tools button:active,
+    #tools label:active {
+      transform: translateY(2px);
+      filter: brightness(.88);
+      box-shadow: inset 0 2px 5px rgba(0,0,0,.38);
+    }
+    .launch-actions .launch-btn:focus-within,
+    .launch-actions > a:focus-visible,
+    .launch-actions > button:focus-visible,
+    #tools button:focus-visible,
+    #tools label:focus-within {
+      outline: 2px solid #f5c518;
+      outline-offset: 3px;
+    }
+    @media (max-width: 520px) {
+      #game-topbar { flex-basis: 38px; min-height: 38px; gap: .5rem; padding-inline: .6rem; }
+      .game-topbar-title { font-size: .82rem; }
+      #game-topbar #status { font-size: .78rem; }
+    }
+
   </style>
 </head>
 <body class="booting">
@@ -579,12 +715,18 @@
         
       </div>
     </section>
-    <section id="game" hidden>
-      <canvas id="screen" tabindex="0"></canvas>
-    </section>
-    <p id="status" role="status"></p>
+    <div id="game-view" hidden>
+      <header id="game-topbar">
+        <span class="game-status-dot" id="game-status-dot" data-state="ok" aria-hidden="true"></span>
+        <strong class="game-topbar-title">GTA2</strong>
+        <p id="status" role="status" aria-live="polite"></p>
+        <p id="fps" hidden></p>
+      </header>
+      <section id="game" hidden>
+        <canvas id="screen" tabindex="0"></canvas>
+      </section>
+    </div>
     <p id="coop-banner" role="status" hidden></p>
-    <p id="fps" hidden></p>
     <div id="tools" hidden>
       <!-- Stateful labels (they follow the button's state): no data-i18n here, the shell
            re-renders them on a language change. -->
