@@ -255,6 +255,104 @@
     #freeware a { color: var(--fg); }
     #forget-files { margin-left: .6rem; background: none; border: 0; color: var(--muted); text-decoration: underline;
       cursor: pointer; }
+
+    /* Minimal launcher styled to match the GTA3-WASM front page. */
+    .landing-on #topnav { display: none !important; }
+    .landing-on #landing {
+      width: min(46rem, calc(100% - 2rem));
+      margin: clamp(1rem, 5vh, 3rem) auto 2rem;
+      gap: 1rem;
+    }
+    .landing-on #landing > .hero,
+    .landing-on #landing > #play,
+    .landing-on #landing > #crews,
+    .landing-on #landing > #help,
+    .landing-on #landing > .landing-foot { display: none !important; }
+    .launch-card {
+      width: 100%;
+      box-sizing: border-box;
+      padding: clamp(1.25rem, 4vw, 2rem);
+      border-radius: 16px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.35);
+    }
+    .launch-card h1 {
+      margin: 0 0 .5rem;
+      color: #fff;
+      font: clamp(1.45rem, 4vw, 2rem)/1.15 Bungee, "Arial Black", Impact, sans-serif;
+    }
+    .launch-card > p { margin: 0 0 1.1rem; color: #aaa7a1; }
+    .launch-actions { display: grid; gap: .75rem; }
+    .launch-actions .launch-btn,
+    .launch-actions > a,
+    .launch-actions > button {
+      width: 100%;
+      min-height: 3.1rem;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      padding: .75rem 1rem;
+      border-radius: 10px;
+      font: 15px/1.25 Bungee, "Arial Black", sans-serif;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .launch-actions .launch-btn {
+      background: #f5c518;
+      color: #121212;
+      box-shadow: 0 3px 0 #a5830b;
+    }
+    .launch-actions > a {
+      background: #2a2a31;
+      border: 1px solid #3a3a42;
+      color: #eee;
+    }
+    .launch-actions > button {
+      background: #2fbf71;
+      border: 0;
+      color: #08130c;
+      box-shadow: 0 3px 0 #1d7a48;
+    }
+    .launch-actions > button:disabled { opacity: .6; cursor: progress; }
+    .launch-card #files-state {
+      display: block;
+      margin-top: 1rem;
+      color: #aaa7a1;
+      font-size: .85rem;
+      text-align: center;
+    }
+    .launch-card #files-bar {
+      display: block;
+      width: 100%;
+      margin-top: .6rem;
+      accent-color: #f5c518;
+    }
+    .landing-on #landing > #controls,
+    .landing-on #landing > #options {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    #game {
+      flex: 1 1 auto;
+      min-width: 0;
+      min-height: 0;
+      width: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+    #screen {
+      background: #000;
+      max-width: 100%;
+      max-height: 100%;
+    }
+    @media (max-width: 520px) {
+      .launch-card { padding: 1.1rem; }
+      .launch-actions { gap: .65rem; }
+      .landing-on #landing { margin-top: 1rem; }
+    }
+
   </style>
 </head>
 <body class="booting">
@@ -266,6 +364,19 @@
   </header>
   <main>
     <div id="landing" hidden>
+      <section class="card launch-card" id="launch-panel">
+        <h1>GTA2 in your browser</h1>
+        <p>Choose one of the three ways to load GTA2.</p>
+        <div class="launch-actions">
+          <label class="launch-btn" for="installer-file">Select EXE / Import</label>
+          <input id="installer-file" type="file" accept=".exe,application/octet-stream" hidden>
+          <a href="https://archive.org/details/gta2_rockstar-classics" target="_blank" rel="noopener noreferrer">Open Internet Archive download</a>
+          <button id="download-freeware" type="button" data-i18n="ui.freeware.download">Download GTA2 (free, 346 MB)</button>
+        </div>
+        <span id="files-state" data-i18n="ui.files.preparing">Getting GTA2 ready…</span>
+        <progress id="files-bar" max="1" value="0"></progress>
+      </section>
+
       <section class="hero" id="top">
         <div class="card hero-shot">
           <img src="img/downtown.png" data-i18n-alt="ui.hero.shotAlt" alt="GTA2's Downtown district in widescreen, with the round radar" width="800" height="452"
@@ -276,13 +387,11 @@
           <h1 data-i18n="ui.hero.title">GTA2 in your <span>browser</span></h1>
           <p data-i18n="ui.hero.lead">The real 1999 game, running in your browser on any computer. Nothing to install. Widescreen,
             smooth at your screen's refresh rate, a full map, and co-op with friends.</p>
-          <progress id="files-bar" max="1" value="0"></progress>
-          <span id="files-state" data-i18n="ui.files.preparing">Getting GTA2 ready…</span>
+          
+          
           <div><button class="btn" type="button" data-play data-i18n="ui.playNow">Play now</button></div>
           <div id="continue-root" hidden></div>
-          <label class="button secondary"><span data-i18n="ui.freeware.choose">Choose GTA2INSTALLER.exe</span>
-  <input id="installer-file" type="file" accept=".exe,application/octet-stream">
-</label>
+          
         </div>
       </section>
 
@@ -456,13 +565,11 @@
       <div id="freeware">
         <p data-i18n="ui.freeware.lead">No GTA2 installed? Rockstar released it free in 2004. Download that release from the
           Internet Archive straight into this browser (346 MB); it is unpacked here and kept for next time.</p>
-        <button id="download-freeware" type="button" data-i18n="ui.freeware.download">Download GTA2 (free, 346 MB)</button>
+        
         <p id="installer-pick" data-i18n="ui.freeware.pick">Or download <code>GTA2INSTALLER.exe</code> from the
           <a href="https://archive.org/details/gta2_rockstar-classics" target="_blank" rel="noopener">Internet Archive</a>
           yourself and choose it here:</p>
-        <label class="button secondary"><span data-i18n="ui.freeware.choose">Choose GTA2INSTALLER.exe</span>
-          <input id="installer-file" type="file" accept=".exe,application/octet-stream">
-        </label>
+        
       </div>
     </section>
     <section id="game" hidden>
